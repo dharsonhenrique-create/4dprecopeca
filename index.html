@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ampara - Você nunca está sozinha</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-light: #F7F5F2; /* Warm Off-White */
+            --card-light: #FFFFFF;
+            --border-light: #E0E0E0;
+            --text-primary: #3D3D3D; /* Dark Gray */
+            --text-secondary: #757575; /* Medium Gray */
+            --accent-rose: #E58C8A; /* Dusty Rose/Terracotta */
+            --accent-rose-light: #F8E6E5;
+            --star-color: #FBBF24; /* Amber-400 */
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+        }
+        .text-shadow {
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: var(--accent-rose);
+            transition: width .3s;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .tab-button {
+             background-color: transparent;
+             border: 1px solid var(--border-light);
+             color: var(--text-secondary);
+             padding: 0.5rem 1rem;
+             border-radius: 9999px;
+             cursor: pointer;
+             transition: all 0.3s;
+        }
+        .tab-button:hover {
+            border-color: var(--accent-rose);
+            color: var(--accent-rose);
+        }
+        .tab-button.active {
+            border-color: var(--accent-rose);
+            color: var(--accent-rose);
+            background-color: var(--accent-rose-light);
+        }
+        .chat-bubble, #chat-cta-balloon {
+            animation: fadeIn .5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        #chat-cta-balloon {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            background-color: var(--accent-rose);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.5s 2s forwards; /* Aparece após 2 segundos */
+            pointer-events: none; /* Não interfere com o clique no botão */
+        }
+        #chat-cta-balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 24px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid var(--accent-rose);
+        }
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+        .rating-stars i {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-[var(--border-light)] transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#inicio" class="flex items-center space-x-3">
+                <img src="https://i.postimg.cc/BnsmgXc6/group-project.png" alt="Logo Ampara" class="w-10 h-10 rounded-lg shadow-md object-cover">
+                <span class="text-2xl font-bold text-[var(--text-primary)]">Ampara</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#problema" class="nav-link text-[var(--text-secondary)] hover:text-[var(--text-primary)]">O Desafio</a>
+                <a href="#proposta" class="nav-link text-[var(--text-secondary)] hover:text-[var(--text-primary)]">Nossa Missão</a>
+                <a href="#funcionalidades" class="nav-link text-[var(--text-secondary)] hover:text-[var(--text-primary)]">Recursos</a>
+                 <a href="#apoio-financeiro" class="nav-link text-[var(--text-secondary)] hover:text-[var(--text-primary)]">Apoio Financeiro</a>
+                <a href="#depoimentos" class="nav-link text-[var(--text-secondary)] hover:text-[var(--text-primary)]">Depoimentos</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="inicio" class="min-h-screen flex items-center bg-[var(--bg-light)]">
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left">
+                    <h1 class="text-5xl md:text-7xl font-bold text-[var(--text-primary)] mb-4 text-shadow">Ampara</h1>
+                    <p class="text-2xl md:text-3xl text-[var(--text-secondary)] text-shadow">Você nunca está sozinha.</p>
+                    <div class="mt-12">
+                        <a href="#problema" class="bg-[var(--accent-rose)] text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-opacity-90 transition-transform transform hover:scale-105 inline-block">Conheça a Jornada</a>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <img src="https://i.postimg.cc/BnsmgXc6/group-project.png" alt="[Imagem de Acolhimento e Cuidado]" class="rounded-2xl shadow-xl w-full">
+                </div>
+            </div>
+        </section>
+
+        <section id="problema" class="py-20 md:py-32 bg-[var(--card-light)] border-y border-[var(--border-light)]">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-4xl font-bold mb-4">A Solidão na Gestação é Real</h2>
+                    <p class="text-lg text-[var(--text-secondary)]">Muitas mulheres enfrentam a gravidez com medo e insegurança por não terem uma rede de apoio. A ausência da família ou do pai da criança pode gerar um impacto emocional profundo, transformando um momento que deveria ser de alegria em uma jornada solitária.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="proposta" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                 <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-4xl font-bold mb-4">Nossa Missão: Acolher e Fortalecer</h2>
+                    <p class="text-lg text-[var(--text-secondary)]">O Ampara nasceu para ser o abraço digital que toda gestante merece. Somos uma comunidade de apoio 24h, conectando mulheres a especialistas e a outras mães que entendem seus desafios.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-[var(--card-light)] p-8 rounded-xl border border-[var(--border-light)] transition-transform hover:transform hover:-translate-y-2 shadow-sm hover:shadow-lg">
+                        <i class="fas fa-users text-4xl text-[var(--accent-rose)] mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Comunidade de Apoio</h3>
+                        <p class="text-[var(--text-secondary)]">Conecte-se com outras gestantes e encontre um espaço seguro para compartilhar experiências.</p>
+                    </div>
+                    <div class="bg-[var(--card-light)] p-8 rounded-xl border border-[var(--border-light)] transition-transform hover:transform hover:-translate-y-2 shadow-sm hover:shadow-lg">
+                        <i class="fas fa-user-md text-4xl text-[var(--accent-rose)] mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Especialistas Voluntários</h3>
+                        <p class="text-[var(--text-secondary)]">Acesse uma rede de psicólogos, nutricionistas e enfermeiros prontos para ajudar.</p>
+                    </div>
+                    <div class="bg-[var(--card-light)] p-8 rounded-xl border border-[var(--border-light)] transition-transform hover:transform hover:-translate-y-2 shadow-sm hover:shadow-lg">
+                        <i class="fas fa-book-open text-4xl text-[var(--accent-rose)] mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Informação Confiável</h3>
+                        <p class="text-[var(--text-secondary)]">Encontre artigos, vídeos e guias sobre cada etapa da gravidez e maternidade.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="funcionalidades" class="py-20 md:py-32 bg-[var(--card-light)] border-y border-[var(--border-light)]">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center mb-12">Recursos para sua Jornada</h2>
+                <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8" id="tab-buttons">
+                    <button class="tab-button active" data-tab="comunidade">Comunidade</button>
+                    <button class="tab-button" data-tab="diario">Diário</button>
+                    <button class="tab-button" data-tab="mapa">Mapa de Apoio</button>
+                    <button class="tab-button" data-tab="agenda">Agenda de Saúde</button>
+                    <button class="tab-button" data-tab="direitos">Seus Direitos</button>
+                    <button class="tab-button" data-tab="planejamento">Planejamento do Bebê</button>
+                </div>
+                <div class="bg-[var(--bg-light)] p-8 rounded-xl border border-[var(--border-light)] min-h-[400px]">
+                    <div id="comunidade" class="tab-content">
+                        <h3 class="text-2xl font-bold mb-4 text-[var(--accent-rose)]">Chat Anônimo e Seguro</h3>
+                        <p class="text-[var(--text-secondary)]">Converse com outras mães e profissionais de forma anônima. Um espaço para desabafar, tirar dúvidas e encontrar amizades sem julgamentos. A escuta ativa e o apoio mútuo são nossos pilares.</p>
+                    </div>
+                    <div id="diario" class="tab-content hidden">
+                        <h3 class="text-2xl font-bold mb-4 text-[var(--accent-rose)]">Diário da Gestação</h3>
+                        <p class="text-[var(--text-secondary)]">Registre seus sentimentos, a evolução da sua gestação, anote consultas e marcos importantes. Um espaço só seu para acompanhar cada passo dessa transformação.</p>
+                    </div>
+                    <div id="mapa" class="tab-content hidden">
+                        <h3 class="text-2xl font-bold mb-4 text-[var(--accent-rose)]">Mapa de Instituições de Apoio</h3>
+                        <p class="text-[var(--text-secondary)]">Encontre ONGs, postos de saúde (SUS) e grupos de acolhimento perto de você. Tenha acesso fácil a uma rede de suporte físico na sua comunidade.</p>
+                    </div>
+                    <div id="agenda" class="tab-content hidden">
+                        <h3 class="text-2xl font-bold mb-4 text-[var(--accent-rose)]">Agenda de Saúde</h3>
+                        <p class="text-[var(--text-secondary)] mb-4">Organize suas vacinas, exames e consultas do pré-natal.</p>
+                        <ul class="space-y-3 list-disc list-inside text-[var(--text-secondary)]">
+                            <li><strong>Vacinas na Gestação:</strong> dTpa (Tríplice Bacteriana), Hepatite B, Influenza (Gripe).</li>
+                            <li><strong>Primeiras Vacinas do Bebê:</strong> BCG, Hepatite B (ao nascer).</li>
+                            <li><strong>Exemplo de Postos de Saúde (Bragança Paulista):</strong>
+                                <ul class="pl-5 list-square list-inside">
+                                    <li>UBS Dr. Lourenço Quilicci - Vila Bianchi</li>
+                                    <li>USF Dra. Zilda Arns Neumann - Henedina Cortez</li>
+                                    <li>Centro de Saúde Dr. GUSHIKEN - Centro</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                     <div id="direitos" class="tab-content hidden">
+                        <h3 class="text-2xl font-bold mb-4 text-[var(--accent-rose)]">Seus Direitos</h3>
+                        <p class="text-[var(--text-secondary)] mb-4">Conhecer seus direitos é o primeiro passo para garantir seu bem-estar e o do seu bebê.</p>
+                        <ul class="space-y-3 text-[var(--text-secondary)]">
+                           <li><i class="fas fa-gavel text-[var(--accent-rose)] mr-2"></i><strong>Pensão Alimentícia (Alimentos Gravídicos):</strong> Você tem direito a solicitar auxílio financeiro do pai da criança para despesas da gestação, mesmo antes do nascimento.</li>
+                           <li><i class="fas fa-briefcase text-[var(--accent-rose)] mr-2"></i><strong>Salário-Maternidade:</strong> Um benefício para quem contribui para o INSS, garantindo renda durante o afastamento do trabalho.</li>
+                           <li><i class="fas fa-hospital-user text-[var(--accent-rose)] mr-2"></i><strong>Atendimento Prioritário:</strong> Gestantes têm direito a atendimento preferencial em bancos, repartições públicas e outros estabelecimentos.</li>
+                        </ul>
+                    </div>
+                    <div id="planejamento" class="tab-content hidden">
+                        <h3 class="text-2xl font-bold mb-4 text-[var(--accent-rose)]">Planejamento do Bebê</h3>
+                        <p class="text-[var(--text-secondary)] mb-4">Organize os preparativos com calma. Marque o que você já tem!</p>
+                        <div class="space-y-3" id="checklist">
+                            <label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-[var(--accent-rose)] focus:ring-[var(--accent-rose)] mr-3"><span>Kit de higiene (fraldas, lenços, pomada)</span></label>
+                            <label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-[var(--accent-rose)] focus:ring-[var(--accent-rose)] mr-3"><span>Roupas (bodies, macacões, meias)</span></label>
+                            <label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-[var(--accent-rose)] focus:ring-[var(--accent-rose)] mr-3"><span>Bolsa da maternidade (para você e o bebê)</span></label>
+                            <label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-[var(--accent-rose)] focus:ring-[var(--accent-rose)] mr-3"><span>Cantinho do sono (berço, moisés)</span></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="beneficios" class="py-20 md:py-32">
+             <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+                 <div>
+                    <h2 class="text-4xl font-bold mb-6">Uma Jornada Mais Segura e Confiante</h2>
+                    <ul class="space-y-4 text-lg text-[var(--text-secondary)]">
+                        <li class="flex items-start"><i class="fas fa-heart text-[var(--accent-rose)] mt-1 mr-3"></i><span>Diminuição do sentimento de isolamento e ansiedade.</span></li>
+                        <li class="flex items-start"><i class="fas fa-hands-helping text-[var(--accent-rose)] mt-1 mr-3"></i><span>Acesso fácil à orientação prática e emocional de especialistas.</span></li>
+                        <li class="flex items-start"><i class="fas fa-shield-alt text-[var(--accent-rose)] mt-1 mr-3"></i><span>Fortalecimento da autoestima e da segurança para a maternidade.</span></li>
+                    </ul>
+                 </div>
+                 <div class="hidden md:block">
+                     <img src="https://i.postimg.cc/BnsmgXc6/group-project.png" alt="[Imagem de Maternidade Confiante]" class="rounded-2xl shadow-xl w-full">
+                 </div>
+            </div>
+        </section>
+
+        <section id="apoio-financeiro" class="py-20 md:py-32 bg-[var(--card-light)] border-y border-[var(--border-light)]">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-4xl font-bold mb-4">Apoio Financeiro: Caminhos e Possibilidades</h2>
+                    <p class="text-lg text-[var(--text-secondary)]">A preocupação financeira não deve tirar o brilho da sua gestação. Conheça alguns caminhos e recursos que podem te ajudar a ter mais tranquilidade nesta fase.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-xl border border-[var(--border-light)] shadow-sm">
+                        <i class="fas fa-landmark text-4xl text-[var(--accent-rose)] mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Benefícios do Governo</h3>
+                        <p class="text-[var(--text-secondary)]">Informe-se sobre programas como o Bolsa Família e o Auxílio Maternidade. Verifique os requisitos no CRAS (Centro de Referência de Assistência Social) da sua cidade.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl border border-[var(--border-light)] shadow-sm">
+                        <i class="fas fa-piggy-bank text-4xl text-[var(--accent-rose)] mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Planejamento e Orçamento</h3>
+                        <p class="text-[var(--text-secondary)]">Criar um orçamento simples para os gastos do bebê pode reduzir a ansiedade. Foque no essencial e explore opções como bazares e grupos de doação.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl border border-[var(--border-light)] shadow-sm">
+                        <i class="fas fa-map-marker-alt text-4xl text-[var(--accent-rose)] mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Redes de Apoio Locais</h3>
+                        <p class="text-[var(--text-secondary)]">Muitas ONGs e igrejas oferecem doação de enxovais e itens de primeira necessidade. Use nosso 'Mapa de Apoio' para encontrar uma perto de você.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="impacto" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                 <h2 class="text-4xl font-bold text-center mb-12">Nosso Foco é o seu Bem-Estar</h2>
+                 <div class="max-w-md mx-auto">
+                    <canvas id="impactChart"></canvas>
+                 </div>
+            </div>
+        </section>
+
+        <section id="depoimentos" class="py-20 md:py-32 bg-[var(--card-light)] border-y border-[var(--border-light)]">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center mb-12">O que dizem sobre o Ampara</h2>
+                <div id="testimonials-grid" class="grid md:grid-cols-3 gap-8">
+                    <!-- Depoimentos serão inseridos aqui pelo JS -->
+                </div>
+                <div class="text-center mt-16">
+                    <button id="add-comment-btn" class="bg-transparent border-2 border-[var(--accent-rose)] text-[var(--accent-rose)] px-8 py-3 rounded-full text-lg font-semibold hover:bg-[var(--accent-rose)] hover:text-white transition-colors">
+                        Deixe seu comentário anônimo
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[var(--card-light)] border-t border-[var(--border-light)]">
+        <div class="container mx-auto px-6 py-12 text-center">
+            <div class="flex items-center justify-center space-x-3 mb-4">
+                <img src="https://i.postimg.cc/BnsmgXc6/group-project.png" alt="Logo Ampara" class="w-10 h-10 rounded-lg shadow-md object-cover">
+                <span class="text-4xl font-bold text-[var(--text-primary)]">Ampara</span>
+            </div>
+            <p class="text-xl text-[var(--text-secondary)] max-w-2xl mx-auto">Toda mulher merece apoio, respeito e cuidado.</p>
+            <div class="mt-8">
+                <a href="#" class="text-[var(--text-secondary)] hover:text-[var(--accent-rose)] mx-3"><i class="fab fa-instagram text-2xl"></i></a>
+                <a href="#" class="text-[var(--text-secondary)] hover:text-[var(--accent-rose)] mx-3"><i class="fab fa-facebook-square text-2xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Comentário -->
+    <div id="comment-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div id="modal-overlay" class="absolute inset-0 bg-black/50 modal-overlay"></div>
+        <div class="bg-white rounded-lg shadow-xl p-8 w-full max-w-md mx-4 z-10 modal-content transform scale-95">
+            <h3 class="text-2xl font-bold mb-4 text-[var(--text-primary)]">Deixe sua avaliação</h3>
+            <textarea id="comment-textarea" class="w-full p-3 border border-[var(--border-light)] rounded-md h-32 resize-none focus:ring-2 focus:ring-[var(--accent-rose)] focus:outline-none" placeholder="Conte como o Ampara te ajudou..."></textarea>
+            <div class="my-4">
+                <p class="text-[var(--text-secondary)] mb-2">Sua avaliação:</p>
+                <div id="rating-stars" class="rating-stars text-3xl text-gray-300">
+                    <i class="fas fa-star" data-value="1"></i>
+                    <i class="fas fa-star" data-value="2"></i>
+                    <i class="fas fa-star" data-value="3"></i>
+                    <i class="fas fa-star" data-value="4"></i>
+                    <i class="fas fa-star" data-value="5"></i>
+                </div>
+                <input type="hidden" id="rating-value" value="0">
+            </div>
+            <div class="flex justify-end space-x-4 mt-6">
+                <button id="close-modal-btn" class="text-[var(--text-secondary)]">Cancelar</button>
+                <button id="submit-comment-btn" class="bg-[var(--accent-rose)] text-white px-6 py-2 rounded-lg font-semibold">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="chat-widget" class="fixed bottom-5 right-5 z-50">
+        <div id="chat-cta-balloon" class="hidden md:block">
+            Solicitar auxílio
+        </div>
+        <button id="chat-toggle" class="bg-[var(--accent-rose)] text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-3xl">
+            <i class="fas fa-comment-dots"></i>
+        </button>
+        <div id="chat-window" class="hidden absolute bottom-20 right-0 w-80 bg-[var(--card-light)] rounded-xl shadow-2xl border border-[var(--border-light)]">
+            <div class="bg-[var(--bg-light)] p-4 rounded-t-xl border-b border-[var(--border-light)]">
+                <h3 class="font-bold text-[var(--text-primary)]">Assistente Ampara</h3>
+                <p class="text-sm text-[var(--text-secondary)]">Estou aqui para te ouvir.</p>
+            </div>
+            <div id="chat-messages" class="p-4 h-64 overflow-y-auto">
+                <div class="chat-bubble bg-[#E5E7EB] p-3 rounded-lg text-sm mb-2 self-start max-w-xs text-gray-800">
+                    Olá! Sei que as coisas podem parecer difíceis, mas lembre-se da força incrível que você tem. Como você está se sentindo hoje?
+                </div>
+            </div>
+            <div class="p-4 border-t border-[var(--border-light)]">
+                <input type="text" id="chat-input" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-rose)] bg-white border-[var(--border-light)] text-gray-800" placeholder="Digite sua mensagem...">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Lógica do Gráfico de Impacto
+        const ctx = document.getElementById('impactChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Saúde Emocional', 'Apoio Comunitário', 'Informação Prática'],
+                datasets: [{
+                    data: [50, 30, 20],
+                    backgroundColor: ['#E58C8A', '#F8E6E5', '#A0B8C8'],
+                    borderColor: '#FFFFFF',
+                    borderWidth: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#757575'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Lógica das Abas de Funcionalidades
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                const tabId = button.dataset.tab;
+                tabContents.forEach(content => {
+                    if (content.id === tabId) {
+                        content.classList.remove('hidden');
+                    } else {
+                        content.classList.add('hidden');
+                    }
+                });
+            });
+        });
+        
+        // Lógica dos Depoimentos
+        document.addEventListener('DOMContentLoaded', () => {
+            const testimonialsGrid = document.getElementById('testimonials-grid');
+            const sampleTestimonials = [
+                { rating: 5, text: "Encontrei um porto seguro aqui. As conversas no chat anônimo me deram a força que eu precisava para não me sentir mais sozinha. Recomendo de olhos fechados!" },
+                { rating: 4, text: "A aba de 'Direitos' foi uma luz no fim do túnel. Eu não sabia por onde começar para garantir o futuro do meu bebê, e aqui encontrei as informações que precisava." },
+                { rating: 5, text: "Esse app é um abraço. A cada momento de pânico, eu abria o app e encontrava uma mensagem de apoio ou uma mãe passando pela mesma coisa. Fez toda a diferença." }
+            ];
+
+            function generateTestimonials() {
+                testimonialsGrid.innerHTML = '';
+                sampleTestimonials.forEach(testimonial => {
+                    let starsHTML = '';
+                    for (let i = 1; i <= 5; i++) {
+                        starsHTML += `<i class="fas fa-star ${i <= testimonial.rating ? 'text-[var(--star-color)]' : 'text-gray-300'}"></i>`;
+                    }
+
+                    const cardHTML = `
+                        <div class="bg-white p-6 rounded-lg border border-[var(--border-light)] shadow-sm">
+                            <div class="flex items-center mb-2">
+                                ${starsHTML}
+                            </div>
+                            <p class="text-[var(--text-secondary)] italic">"${testimonial.text}"</p>
+                        </div>
+                    `;
+                    testimonialsGrid.innerHTML += cardHTML;
+                });
+            }
+
+            generateTestimonials();
+
+            // Lógica do Modal de Comentário
+            const commentModal = document.getElementById('comment-modal');
+            const modalOverlay = document.getElementById('modal-overlay');
+            const addCommentBtn = document.getElementById('add-comment-btn');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const submitCommentBtn = document.getElementById('submit-comment-btn');
+            const ratingStarsContainer = document.getElementById('rating-stars');
+            const ratingStars = ratingStarsContainer.querySelectorAll('i');
+            const ratingValueInput = document.getElementById('rating-value');
+            const commentTextarea = document.getElementById('comment-textarea');
+
+            addCommentBtn.addEventListener('click', () => {
+                commentModal.classList.remove('hidden');
+            });
+
+            const closeModal = () => {
+                commentModal.classList.add('hidden');
+            };
+
+            closeModalBtn.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', closeModal);
+
+            ratingStars.forEach(star => {
+                star.addEventListener('mouseover', () => {
+                    const rating = star.dataset.value;
+                    ratingStars.forEach(s => {
+                        s.classList.toggle('text-[var(--star-color)]', s.dataset.value <= rating);
+                        s.classList.toggle('text-gray-300', s.dataset.value > rating);
+                    });
+                });
+
+                star.addEventListener('mouseout', () => {
+                    const currentRating = ratingValueInput.value;
+                     ratingStars.forEach(s => {
+                        s.classList.toggle('text-[var(--star-color)]', s.dataset.value <= currentRating);
+                        s.classList.toggle('text-gray-300', s.dataset.value > currentRating);
+                    });
+                });
+                
+                star.addEventListener('click', () => {
+                    ratingValueInput.value = star.dataset.value;
+                });
+            });
+            
+            submitCommentBtn.addEventListener('click', () => {
+                const newTestimonial = {
+                    rating: parseInt(ratingValueInput.value),
+                    text: commentTextarea.value
+                };
+                if(newTestimonial.rating > 0 && newTestimonial.text) {
+                    // Adiciona o novo comentário ao início da lista (apenas na visualização)
+                    sampleTestimonials.unshift(newTestimonial);
+                    if(sampleTestimonials.length > 3) {
+                       sampleTestimonials.pop(); // Mantém apenas 3 depoimentos na tela
+                    }
+                    generateTestimonials();
+                    
+                    // Limpa o formulário e fecha o modal
+                    commentTextarea.value = '';
+                    ratingValueInput.value = '0';
+                    ratingStars.forEach(s => s.classList.replace('text-[var(--star-color)]', 'text-gray-300'));
+                    closeModal();
+                } else {
+                    alert("Por favor, preencha o comentário e a avaliação.");
+                }
+            });
+
+        });
+
+
+        // Lógica do Chat Flutuante
+        const chatToggle = document.getElementById('chat-toggle');
+        const chatWindow = document.getElementById('chat-window');
+        const chatInput = document.getElementById('chat-input');
+        const chatMessages = document.getElementById('chat-messages');
+        const chatCtaBalloon = document.getElementById('chat-cta-balloon');
+
+        chatToggle.addEventListener('click', () => {
+            chatWindow.classList.toggle('hidden');
+            chatCtaBalloon.style.display = 'none'; // Esconde o balão para sempre ao clicar
+        });
+
+        const respostasIA = [
+            "Entendo completamente. É normal se sentir assim. Respire fundo, você está fazendo o seu melhor.",
+            "Isso é muito importante. Falar sobre o que sentimos alivia o coração. Saiba que você não está sozinha nisso.",
+            "Lembre-se de ser gentil com você mesma. Cada dia é um passo. Que tal fazer algo pequeno por você hoje, como ouvir uma música que gosta?",
+            "Sua força é maior do que você imagina. Você está construindo uma vida para seu bebê, e isso é um ato de amor imenso.",
+            "Estou aqui para te ouvir, sem julgamentos. Pode contar comigo sempre que precisar desabafar."
+        ];
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && chatInput.value.trim() !== '') {
+                const userMessage = document.createElement('div');
+                userMessage.className = 'bg-[var(--accent-rose-light)] p-3 rounded-lg text-sm mb-2 self-end max-w-xs ml-auto text-gray-800';
+                userMessage.textContent = chatInput.value;
+                chatMessages.appendChild(userMessage);
+
+                chatInput.value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                setTimeout(() => {
+                    const iaMessage = document.createElement('div');
+                    iaMessage.className = 'chat-bubble bg-[#E5E7EB] p-3 rounded-lg text-sm mb-2 self-start max-w-xs text-gray-800';
+                    const randomResponse = respostasIA[Math.floor(Math.random() * respostasIA.length)];
+                    iaMessage.textContent = randomResponse;
+                    chatMessages.appendChild(iaMessage);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
+
